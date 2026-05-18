@@ -27,7 +27,7 @@ def set_led(np, x, y, color):
         description: "Show letters or numbers on the NeoPixel panel. panel.py is already in your project.",
         code: `from panel import panel_show
 
-panel_show(np, "HI", (0, 200, 0), x=0, y=5)`,
+panel_show(np, "HI", [(0, 0, 0), (0, 200, 0)], x=0, y=5)`,
       },
     ],
   },

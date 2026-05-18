@@ -29,7 +29,7 @@ from panel import panel_show
 
 np = neopixel.NeoPixel(pin0, 256)
 
-panel_show(np, "HI", (0, 200, 0), x=0, y=5)
+panel_show(np, "HI", [(0, 0, 0), (0, 200, 0)], x=0, y=5)
 `,
   },
   {
