@@ -384,8 +384,8 @@
     "description": "Highlight code structure option"
   },
   "ideas-tab": {
-    "defaultMessage": "Ideas",
-    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+    "defaultMessage": "Templates",
+    "description": "Templates tab button text. Tab shows starting templates for LED panel projects."
   },
   "ideas-tab-description": {
     "defaultMessage": "Try out these projects, modify them and get inspired",

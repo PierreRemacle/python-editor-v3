@@ -8,6 +8,7 @@ import { FileSystem, VersionAction, MAIN_FILE } from "./fs";
 import { Logging } from "../logging/logging";
 import {
   defaultInitialProject,
+  panelModuleContent,
   PythonProject,
   projectFilesToBase64,
 } from "./initial-project";
@@ -52,7 +53,12 @@ export class DefaultHost implements Host {
     if (migration) {
       return true;
     }
-    return !(await storage.exists(MAIN_FILE));
+    const hasMain = await storage.exists(MAIN_FILE);
+    if (hasMain && !(await storage.exists("panel.py"))) {
+      // Existing project missing panel.py — add it without a full re-init.
+      await storage.write("panel.py", new TextEncoder().encode(panelModuleContent));
+    }
+    return !hasMain;
   }
 
   async createInitialProject(): Promise<PythonProject> {

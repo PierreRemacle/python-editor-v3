@@ -16,12 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { IconType } from "react-icons";
-import { RiLightbulbFlashLine } from "react-icons/ri";
+import { RiCodeSSlashLine, RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
+import CustomArea from "../documentation/CustomArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
@@ -83,9 +84,16 @@ const SideBar = ({
       },
       {
         id: "ideas" as const,
-        title: intl.formatMessage({ id: "ideas-tab" }),
+        title: "Templates",
         icon: RiLightbulbFlashLine,
         contents: <IdeasArea />,
+        color: "gray.25",
+      },
+      {
+        id: "custom" as const,
+        title: "CodeBlocks",
+        icon: RiCodeSSlashLine,
+        contents: <CustomArea />,
         color: "gray.25",
       },
       {

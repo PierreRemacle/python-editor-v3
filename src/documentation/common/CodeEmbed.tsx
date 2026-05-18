@@ -81,7 +81,10 @@ const CodeEmbed = ({
       }
     };
   }, [originalSetState]);
-  const toRaised = useCallback(() => setState("raised", false), [setState]);
+  const toRaised = useCallback(
+    () => { if (toolkitType !== "custom") setState("raised", false); },
+    [setState, toolkitType]
+  );
   const toDefault = useCallback(() => setState("default"), [setState]);
   const toHighlighted = useCallback(() => setState("highlighted"), [setState]);
   const handleMouseLeave = useCallback(
@@ -139,13 +142,10 @@ const CodeEmbed = ({
     preventDefault: true,
   }) as LegacyRef<HTMLDivElement>;
   const determineBackground = () => {
-    if (
-      (toolkitType === "ideas" && state === "highlighted") ||
-      (toolkitType !== "ideas" && state !== "default")
-    ) {
-      return "blimpTeal.50";
+    if (toolkitType === "ideas" || toolkitType === "custom") {
+      return state === "highlighted" ? "blimpTeal.50" : "white";
     }
-    return "white";
+    return state !== "default" ? "blimpTeal.50" : "white";
   };
   return (
     <Box position="relative">
@@ -193,7 +193,7 @@ const CodeEmbed = ({
         )}
       </Box>
       <CodeActionButton
-        isOpen={toolkitType === "ideas" ? true : copyCodeButton.isOpen}
+        isOpen={toolkitType === "ideas" || toolkitType === "custom" ? true : copyCodeButton.isOpen}
         toHighlighted={toHighlighted}
         toDefault={toDefault}
         codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}

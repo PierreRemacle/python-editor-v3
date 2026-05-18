@@ -34,6 +34,7 @@ import {
 } from "../fs/fs-util";
 import {
   defaultInitialProject,
+  panelModuleContent,
   projectFilesToBase64,
   PythonProject,
 } from "../fs/initial-project";
@@ -385,6 +386,29 @@ export class ProjectActions {
       await this.fs.replaceWithMultipleFiles(project);
     }
     return confirmed;
+  };
+
+  openTemplate = async (slug: string, code: string, title: string) => {
+    this.logging.event({ type: "idea-open", message: slug });
+    const pythonProject: PythonProject = {
+      files: projectFilesToBase64({
+        [MAIN_FILE]: code,
+        "panel.py": panelModuleContent,
+      }),
+      projectName: title,
+    };
+    const confirmPrompt = this.intl.formatMessage(
+      { id: "confirm-replace-with-idea" },
+      { ideaName: title }
+    );
+    if (await this.openProject(pythonProject, confirmPrompt)) {
+      this.actionFeedback.success({
+        title: this.intl.formatMessage(
+          { id: "loaded-file-feedback" },
+          { filename: title }
+        ),
+      });
+    }
   };
 
   openIdea = async (slug: string | undefined, code: string, title: string) => {
