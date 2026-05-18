@@ -1,0 +1,1 @@
+# Setup de base pour un écran 16x16 en micro:bit
