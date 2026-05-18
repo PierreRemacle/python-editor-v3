@@ -1,10 +1,44 @@
 {
   "name": "@microbit/python-editor-v3",
   "version": "3.0.0-local",
-  "author": "Micro:bit Educational Foundation <package-help@microbit.org>",
-  "license": "MIT",
   "private": true,
+  "description": "This project is a web-based code editor that targets the [MicroPython](https://micropython.org) version of the [Python programming language](http://python.org/).",
+  "homepage": "https://github.com/microbit-foundation/python-editor-v3#readme",
+  "bugs": {
+    "url": "https://github.com/microbit-foundation/python-editor-v3/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microbit-foundation/python-editor-v3.git"
+  },
+  "license": "MIT",
+  "author": "Micro:bit Educational Foundation <package-help@microbit.org>",
   "type": "module",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "vite build",
+    "ci:update-version": "update-ci-version",
+    "ci": "npm run typecheck && npm run test && npm run lint && npm run build",
+    "deploy": "website-deploy-aws",
+    "fix-licensing-headers": "node bin/fix-licensing-headers.cjs",
+    "i18n:compile": "node bin/tidy-lang.cjs && formatjs compile-folder --ast lang src/messages",
+    "i18n:convert": "node bin/tidy-lang.cjs && node bin/crowdin-convert.cjs",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "postinstall": "npm run theme",
+    "serve": "npx serve --no-clipboard -l 3000 -- build/",
+    "start": "vite dev",
+    "test:e2e:headless": "playwright test",
+    "test:e2e": "playwright test --ui",
+    "test": "vitest",
+    "theme:watch": "chakra-cli tokens src/deployment/default/theme.ts --watch",
+    "theme": "chakra-cli tokens src/deployment/default/theme.ts",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch"
+  },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
@@ -83,27 +117,6 @@
   "engines": {
     "node": ">=24.0",
     "npm": ">=10.0"
-  },
-  "scripts": {
-    "build": "vite build",
-    "ci:update-version": "update-ci-version",
-    "ci": "npm run typecheck && npm run test && npm run lint && npm run build",
-    "deploy": "website-deploy-aws",
-    "fix-licensing-headers": "node bin/fix-licensing-headers.cjs",
-    "i18n:compile": "node bin/tidy-lang.cjs && formatjs compile-folder --ast lang src/messages",
-    "i18n:convert": "node bin/tidy-lang.cjs && node bin/crowdin-convert.cjs",
-    "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "postinstall": "npm run theme",
-    "serve": "npx serve --no-clipboard -l 3000 -- build/",
-    "start": "vite dev",
-    "test:e2e:headless": "playwright test",
-    "test:e2e": "playwright test --ui",
-    "test": "vitest",
-    "theme:watch": "chakra-cli tokens src/deployment/default/theme.ts --watch",
-    "theme": "chakra-cli tokens src/deployment/default/theme.ts",
-    "typecheck": "tsc --noEmit",
-    "typecheck:watch": "tsc --noEmit --watch"
   },
   "browserslist": {
     "production": [
